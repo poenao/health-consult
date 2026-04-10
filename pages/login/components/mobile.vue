@@ -37,8 +37,8 @@
       }}</text>
     </uni-forms-item>
 
-    <view class="agreement">image.png
-      <radio :checked="false" color="#16C2A3" />
+    <view class="agreement">
+      <radio :checked="isAgree" color="#16C2A3" @click="toggleAgreement" />
       我已同意
       <text class="link">用户协议</text>
       及
@@ -52,7 +52,8 @@
 <script setup>
   import { ref } from 'vue'
   import CustomCountdown from '../../../components/custom-countdown/custom-countdown.vue'
-  import { verifyCodeApi } from '../../../apis/user'
+  import { loginByMobileApi, verifyCodeApi } from '../../../apis/user'
+  import { userInfoStore } from '../../../stores/user'
   // 表单数据
   const formData = ref({
     mobile: '13230000002',
@@ -99,11 +100,21 @@
       ],
     },
   }
+  // 是否同意勾选协议
+  const toggleAgreement = () => {
+    isAgree.value = !isAgree.value
+  }
   // 登录按钮点击事件
-  const login = () => {
+  const login = async () => {
+    // 判断是否勾选协议
+    if (!isAgree.value) return uni.utils.toast('请先同意协议!')
     try {
-      const formData = formRef.value.validate()
-      console.log('表单验证成功:', formData)
+      const res = await loginByMobileApi(formData.value)
+      if (res.code !== 10000) return uni.utils.toast(res.message)
+      const store = userInfoStore()
+      store.token = res.data.token
+      store.userInfo = res.data.userInfo
+      uni.utils.toast('登录成功!')
     } catch (error) {
       console.log('表单验证失败:', error)
     }
