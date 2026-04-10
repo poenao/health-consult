@@ -7,6 +7,9 @@
         <uni-icons color="#3c3e42" type="forward" />
       </view>
     </view>
+    <!-- 登录表单 -->
+    <custom-password v-if="tabIndex === 0" />
+    <custom-mobile v-if="tabIndex === 1" />
   </view>
   <!-- 社交账号登录 -->
   <view class="social-login">
@@ -28,7 +31,8 @@
 </template>
 <script setup>
   import { computed, ref } from 'vue'
-
+  import customPassword from './components/passoword.vue'
+  import customMobile from './components/mobile.vue'
   const tabMetas = [
     { title: '密码登录', subTitle: '验证码登录' },
     { title: '验证码登录', subTitle: '密码登录' },
