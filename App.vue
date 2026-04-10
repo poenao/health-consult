@@ -13,6 +13,10 @@
 </script>
 
 <style lang="scss">
+  // 单色图标
+  @import './assets/iconfont/iconfont.css';
+  // 多色图标
+    @import './color-fonts.scss';
   /*每个页面公共css */
 
   // 图片
