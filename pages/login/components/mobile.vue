@@ -37,7 +37,7 @@
       }}</text>
     </uni-forms-item>
 
-    <view class="agreement">
+    <view class="agreement">image.png
       <radio :checked="false" color="#16C2A3" />
       我已同意
       <text class="link">用户协议</text>
