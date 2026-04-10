@@ -13,3 +13,9 @@ export const verifyCodeApi = (data) => {
 export const loginByMobileApi = (data) => {
   return request.post('/login', data)
 }
+/**
+ * 用户登录接口（密码方式）
+ */
+export const loginByPassword = (data) => {
+  return request.post('/login/password', data)
+}

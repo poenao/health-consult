@@ -12,11 +12,13 @@
 </script>
 
 <style scoped lang="scss">
+	
 
 .input{
   width: 100%;
   height: 30px;
   text-align: center;
+  
   line-height: 30px;
   border: 1px solid pink;
   border-radius: 4px;
