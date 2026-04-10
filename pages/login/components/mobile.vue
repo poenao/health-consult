@@ -52,13 +52,29 @@
 <script setup>
   import { ref } from 'vue'
   import CustomCountdown from '../../../components/custom-countdown/custom-countdown.vue'
+  import { verifyCodeApi } from '../../../apis/user'
+  // 表单数据
+  const formData = ref({
+    mobile: '13230000002',
+    code: '',
+  })
   // 是否显示倒时计组件
   const showCountDown = ref(false)
+  // 是否同意协议
+  const isAgree = ref(false)
   //按钮文件
   const buttonText = ref('获取验证码')
   // 获取验证码按钮点击事件
-  const getVerificationCode = () => {
-    // 这里可以添加获取验证码的逻辑，例如发送请求到服务器获取验证码
+  const getVerificationCode = async () => {
+    // 发送验证码请求
+    const { code, data, message } = await verifyCodeApi({
+      mobile: formData.value.mobile,
+      type: 'login',
+    })
+    formData.value.code = data.code // 模拟将验证码直接返回并填充到输入框中，实际应用中应根据后端接口调整
+    uni.utils.toast('验证码已发送，请查收!')
+    // 检测接口是否调用成功
+    if (code !== 10000) return uni.utils.toast(message)
     showCountDown.value = true
   }
   // 倒计时结束事件
@@ -66,12 +82,6 @@
     showCountDown.value = false
     buttonText.value = '重新获取验证码'
   }
-
-  // 表单数据
-  const formData = ref({
-    mobile: '13230000002',
-    code: '',
-  })
   // 表单实例对象
   const formRef = ref(null)
   // 表单验证规则
@@ -93,7 +103,7 @@
   const login = () => {
     try {
       const formData = formRef.value.validate()
-      log('表单验证成功:', formData)
+      console.log('表单验证成功:', formData)
     } catch (error) {
       console.log('表单验证失败:', error)
     }
