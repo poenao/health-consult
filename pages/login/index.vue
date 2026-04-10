@@ -38,7 +38,7 @@
     { title: '验证码登录', subTitle: '密码登录' },
   ]
   // 标签索引值
-  const tabIndex = ref(0)
+  const tabIndex = ref(1)
   //  根据索引值决定当前标签展示的内容
   const currentTabMeta = computed(() => {
     return tabMetas[tabIndex.value]

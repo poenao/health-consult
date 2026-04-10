@@ -1,5 +1,3 @@
-<script setup></script>
-
 <template>
   <uni-forms class="login-form" ref="form">
     <uni-forms-item name="name">
@@ -17,7 +15,19 @@
         placeholder="请输入验证码"
         placeholder-style="color: #C3C3C5"
       />
-      <text class="text-button">获取验证码</text>
+      <view class="text-button" v-if="showCountDown">
+        <custom-countdown
+          :show-hour="false"
+          :show-minute="false"
+          :second="10"
+          :show-day="false"
+          color="#16C2A3"
+          @timeup="onCountdownTimeup"
+        />秒后重新获取
+      </view>
+      <text v-else class="text-button" @click="getVerificationCode">{{
+        buttonText
+      }}</text>
     </uni-forms-item>
 
     <view class="agreement">
@@ -32,11 +42,22 @@
   </uni-forms>
 </template>
 
-<script>
-  export default {
-    options: {
-      styleIsolation: 'shared',
-    },
+<script setup>
+  import { ref } from 'vue'
+  import CustomCountdown from '../../../components/custom-countdown/custom-countdown.vue'
+  // 是否显示倒时计组件
+  const showCountDown = ref(false)
+  //按钮文件
+  const buttonText = ref('获取验证码')
+  // 获取验证码按钮点击事件
+  const getVerificationCode = () => {
+    // 这里可以添加获取验证码的逻辑，例如发送请求到服务器获取验证码
+    showCountDown.value = true
+  }
+  // 倒计时结束事件
+  const onCountdownTimeup = () => {
+    showCountDown.value = false
+    buttonText.value = '重新获取验证码'
   }
 </script>
 
