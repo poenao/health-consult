@@ -30,8 +30,8 @@
 		{
 			"path": "pages/test/index",
 			"style": {
-				"navigationBarTitleText": "index"
-			}
+        "navigationBarTitleText": "测试"
+      }
 		}
 	],
 	"globalStyle": {
