@@ -1,15 +1,22 @@
 <template>
-  <uni-forms class="login-form" ref="form">
-    <uni-forms-item name="name">
+  <uni-forms
+    :model="formData"
+    ref="formRef"
+    :rules="formRules"
+    class="login-form"
+  >
+    <uni-forms-item name="mobile">
       <uni-easyinput
+        v-model="formData.mobile"
         :input-border="false"
         :clearable="false"
         placeholder="请输入手机号"
         placeholder-style="color: #C3C3C5"
       />
     </uni-forms-item>
-    <uni-forms-item name="name">
+    <uni-forms-item name="code">
       <uni-easyinput
+        v-model="formData.code"
         :input-border="false"
         :clearable="false"
         placeholder="请输入验证码"
@@ -38,7 +45,7 @@
       <text class="link">隐私协议</text>
     </view>
 
-    <button class="uni-button">登 录</button>
+    <button class="uni-button" @click="login">登 录</button>
   </uni-forms>
 </template>
 
@@ -58,6 +65,38 @@
   const onCountdownTimeup = () => {
     showCountDown.value = false
     buttonText.value = '重新获取验证码'
+  }
+
+  // 表单数据
+  const formData = ref({
+    mobile: '13230000002',
+    code: '',
+  })
+  // 表单实例对象
+  const formRef = ref(null)
+  // 表单验证规则
+  const formRules = {
+    mobile: {
+      rules: [
+        { required: true, errorMessage: '请填写手机号码' },
+        { pattern: /^1[3-9]\d{9}$/, errorMessage: '手机号格式不正确' },
+      ],
+    },
+    code: {
+      rules: [
+        { required: true, errorMessage: '请输入验证码' },
+        { len: 6, errorMessage: '验证码应为6位' },
+      ],
+    },
+  }
+  // 登录按钮点击事件
+  const login = () => {
+    try {
+      const formData = formRef.value.validate()
+      log('表单验证成功:', formData)
+    } catch (error) {
+      console.log('表单验证失败:', error)
+    }
   }
 </script>
 
