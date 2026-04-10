@@ -7,7 +7,7 @@
       }
     },
     {
-      "path": "pages/my/index.vue",
+      "path": "pages/my/index",
       "style": {
         "navigationBarTitleText": "我的",
         "enablePullDownRefresh": false
@@ -31,8 +31,40 @@
   "globalStyle": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "优医问诊",
-    "navigationBarBackgroundColor": "#F8F8F8",
+    "navigationBarBackgroundColor": "#fff",
     "backgroundColor": "#F8F8F8"
   },
+  "tabBar": {
+    "color": "#6f6f6f",
+    "selectedColor": "#6f6f6f",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "static/tabbar/home-default.png",
+        "selectedIconPath": "static/tabbar/home-active.png"
+      },
+      {
+        "pagePath": "pages/wiki/index",
+        "text": "健康百科",
+        "iconPath": "static/tabbar/wiki-default.png",
+        "selectedIconPath": "static/tabbar/wiki-active.png"
+      },
+      {
+        "pagePath": "pages/notify/index",
+        "text": "消息通知",
+        "iconPath": "static/tabbar/notify-default.png",
+        "selectedIconPath": "static/tabbar/notify-active.png"
+      },
+      {
+        "pagePath": "pages/my/index",
+        "text": "我的",
+        "iconPath": "static/tabbar/my-default.png",
+        "selectedIconPath": "static/tabbar/my-active.png"
+      }
+    ]
+  },
+
   "uniIdRouter": {}
 }
