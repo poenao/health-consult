@@ -27,3 +27,10 @@ export const patientDetailApi = (id) => {
 export const updatePatientApi = (data) => {
   return request.put(`/patient/update`, data)
 }
+
+/**
+ * 删除患者（家庭档案）
+ */
+export const removePatientApi = (id) => {
+  return request.delete(`/patient/del/${id}`)
+}

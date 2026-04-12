@@ -1,6 +1,6 @@
 <script setup>
   import { ref } from 'vue'
-  import { patientListApi } from '../../apis/patinet'
+  import { patientListApi, removePatientApi } from '../../apis/patinet'
 
   // 侧滑选项删除患者
   const swipeOptions = ref([
@@ -24,7 +24,26 @@
       return uni.utils.toast(res.message || '获取患者列表失败')
     showContent.value = true
   }
-
+  //   删除患者
+  const onSwipeActionClick = (id) => {
+    uni.showModal({
+      title: '提示',
+      content: '确定要删除该患者吗？',
+      success: async (res) => {
+        if (res.confirm) {
+          // 调用删除接口
+          console.log(id)
+          // await deletePatientApi(id)
+          const res = await removePatientApi(id)
+          if (res.code !== 10000)
+            return uni.utils.toast(res.message || '删除患者失败')
+          uni.utils.toast('删除成功')
+          // 刷新患者列表
+          getPatientList()
+        }
+      },
+    })
+  }
   getPatientList()
 </script>
 
@@ -37,6 +56,7 @@
           v-for="item in patientList"
           :key="item.id"
           :right-options="swipeOptions"
+          @click="onSwipeActionClick(item.id)"
         >
           <view class="archive-card active">
             <view class="archive-info">
@@ -60,7 +80,7 @@
                 size="20"
                 color="#16C2A3"
                 custom-prefix="iconfont"
-              >编辑</uni-icons>
+              ></uni-icons>
             </navigator>
           </view>
         </uni-swipe-action-item>
