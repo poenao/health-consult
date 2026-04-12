@@ -119,24 +119,15 @@
         </swiper>
       </view>
       <!-- 标签页列表 -->
-      <scroll-page>
-        <view
-          class="index-page"
-          :style="{ backgroundPositionY: -48 + safeAreaInsets.top + 'px' }"
-        >
-          <!-- 省略前面小节的代码... -->
-
-          <!-- 标签切换 -->
-          <view
-            class="doctor-feeds"
-            :style="{ marginTop: -safeAreaInsets.top + 'px' }"
-          >
-            <custom-sticky :offset-top="safeAreaInsets.top + 'px'">
-              <custom-tabs @click="onFeedTabChange" :list="feedTabs" />
-            </custom-sticky>
-          </view>
-        </view>
-      </scroll-page>
+      <!-- 标签切换 -->
+      <view
+        class="doctor-feeds"
+        :style="{ marginTop: -safeAreaInsets.top + 'px' }"
+      >
+        <custom-sticky :offset-top="safeAreaInsets.top + 'px'">
+          <custom-tabs @click="onFeedTabChange" :list="feedTabs" />
+        </custom-sticky>
+      </view>
     </view>
   </scroll-page>
 </template>
