@@ -187,6 +187,8 @@
   const feedCurrent = computed(() => feedTabs.value[tabIndex.value].current) // 标签页对应的是否有更多 hasMore
   // 每次请求多少条数据
   const feedPageSize = ref(5)
+  // 返回的数据总条数
+  const feedTotal = ref()
   // 切换标签页
   function onFeedTabChange({ index }) {
     // 如果切换到的标签页没有渲染过，则标记为已渲染
@@ -205,10 +207,19 @@
     })
     // 检测接口是否调用成功
     if (code !== 10000) return uni.utils.toast(message)
+    feedTotal.value = data.total
     // 列表中原来的数据
     const list = feedTabs.value[tabIndex.value].list
     // 追加方式渲染新请求来的数据
     feedTabs.value[tabIndex.value].list = [...list, ...data.rows]
+  }
+  // 监听滚动到底部事件，触底时如果有更多数据则请求下一页
+  const onScrollToLower = () => {
+    // 如果数组数据总条数长度小于(不能等于等于还会继续发请求)返回的总条数才能发请求
+    if (feedTabs.value[tabIndex.value].list.length > feedTotal.value)
+      return uni.utils.toast('没有更多数据了')
+    feedTabs.value[tabIndex.value].current += 1
+    getFeedList()
   }
   getFeedList()
 </script>
