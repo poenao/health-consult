@@ -1,6 +1,12 @@
 <script setup>
   import { ref } from 'vue'
-  const isDefault = ref([0])
+  // 表单数据
+  const fromData = ref({
+    name: '',
+    idCard: '',
+    gender: 1,
+    isDefault: 0,
+  })
 </script>
 
 <template>
@@ -14,19 +20,22 @@
             :input-border="false"
             :clearable="false"
             placeholder="请填写真实姓名"
+            v-model="fromData.name"
           />
         </uni-forms-item>
-        <uni-forms-item label="患者身份证号" name="name">
+        <uni-forms-item label="患者身份证号" name="idCard">
           <uni-easyinput
             placeholder-style="color: #C3C3C5; font-size: 32rpx"
             :styles="{ color: '#121826' }"
             :input-border="false"
             :clearable="false"
             placeholder="请填写身份证号"
+            v-model="fromData.idCard"
           />
         </uni-forms-item>
-        <uni-forms-item label="患者性别" name="name">
+        <uni-forms-item label="患者性别" name="gender">
           <uni-data-checkbox
+            v-model="fromData.gender"
             selectedColor="#16C2A3"
             :localdata="[
               { text: '男', value: 1 },
@@ -34,9 +43,13 @@
             ]"
           />
         </uni-forms-item>
-        <uni-forms-item label="默认就诊人" name="name">
+        <uni-forms-item label="默认就诊人" name="isDefault">
           <view class="uni-switch">
-            <switch checked color="#20c6b2" style="transform: scale(0.7)" />
+            <switch
+              v-model="fromData.isDefault"
+              color="#20c6b2"
+              style="transform: scale(0.7)"
+            />
           </view>
         </uni-forms-item>
         <button class="uni-button">保存</button>
