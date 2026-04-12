@@ -141,6 +141,7 @@
   import { computed, ref } from 'vue'
   import FeedList from './components/feed-list.vue'
   import ScrollPage from '@/components/scroll-page.vue' // 根据你实际路径微调
+  import { feedListApi } from '@/apis/doctor'
   // 获取安全区域数据
   const { safeAreaInsets } = uni.getSystemInfoSync()
   // 标签页索引值
@@ -149,7 +150,7 @@
   const feedTabs = ref([
     {
       label: '推荐',
-      type: '',
+      type: 'recommend',
       current: 1,
       hasMore: true,
       list: [],
@@ -157,7 +158,7 @@
     },
     {
       label: '关注',
-      type: '',
+      type: 'like',
       current: 1,
       hasMore: true,
       list: [],
@@ -165,7 +166,7 @@
     },
     {
       label: '减脂',
-      type: '',
+      type: 'fatReduction',
       current: 1,
       hasMore: true,
       list: [],
@@ -173,7 +174,7 @@
     },
     {
       label: '饮食',
-      type: '',
+      type: 'food',
       current: 1,
       hasMore: true,
       list: [],
@@ -190,9 +191,26 @@
   function onFeedTabChange({ index }) {
     // 如果切换到的标签页没有渲染过，则标记为已渲染
     tabIndex.value = index
+    // 只有在标签页第一次被点击时才调用接口获取数据
+    if (!feedTabs.value[index].rendered) getFeedList()
     // 每个标签页只被初始一次
     feedTabs.value[index].rendered = true
   }
+  const getFeedList = async () => {
+    // 调用接口获取知识列表
+    const { code, data, message } = await feedListApi({
+      type: feedType.value,
+      current: feedCurrent.value,
+      pageSize: feedPageSize.value,
+    })
+    // 检测接口是否调用成功
+    if (code !== 10000) return uni.utils.toast(message)
+    // 列表中原来的数据
+    const list = feedTabs.value[tabIndex.value].list
+    // 追加方式渲染新请求来的数据
+    feedTabs.value[tabIndex.value].list = [...list, ...data.rows]
+  }
+  getFeedList()
 </script>
 <style lang="scss">
   @import './index.scss';
