@@ -18,5 +18,12 @@ export const patientListApi = () => {
  * 患者详情（家庭档案）
  */
 export const patientDetailApi = (id) => {
-  return http.get(`/patient/info/${id}`)
+  return request.get(`/patient/info/${id}`)
+}
+
+/**
+ * 编辑（更新）患者（家庭档案）
+ */
+export const updatePatientApi = (data) => {
+  return request.put(`/patient/update`, data)
 }

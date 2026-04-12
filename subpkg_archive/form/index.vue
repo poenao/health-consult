@@ -55,7 +55,18 @@
 </template>
 <script setup>
   import { ref } from 'vue'
-  import { addPatientApi } from '../../apis/patinet'
+  import {
+    addPatientApi,
+    patientDetailApi,
+    updatePatientApi,
+  } from '../../apis/patinet'
+  import { onLoad } from '@dcloudio/uni-app'
+  // 生命周期（页面加载完成）
+  // onLoad((query) => {
+  //   console.log(query.id)
+  // })
+  // 使用 defineProps 接收地址参数
+  const props = defineProps({ id: String })
   // 表单数据
   const fromData = ref({
     name: '',
@@ -107,11 +118,24 @@
     // 触发表单验证
     try {
       await formRef.value.validate()
-      // 验证通过，执行提交逻辑
-      const res = await addPatientApi(fromData.value)
-      // 检测接口是否调用成功
-      if (res.code !== 10000) return uni.utils.toast(res.message)
-      // 跳转到患者列表页面
+      if (props.id) {
+        // 调用编辑患者接口
+        const res = await updatePatientApi({
+          ...fromData.value,
+          id: props.id,
+        })
+        // 检测接口是否调用成功
+        if (res.code !== 10000)
+          return uni.utils.toast(res.message || '编辑患者信息失败')
+        uni.utils.toast('编辑患者信息成功')
+      } else {
+        // 调用添加患者接口
+        const res = await addPatientApi(fromData.value)
+        // 检测接口是否调用成功
+        if (res.code !== 10000)
+          return uni.utils.toast(res.message || '添加患者信息失败')
+        uni.utils.toast('添加患者信息成功')
+      }
       uni.navigateBack()
     } catch (error) {
       console.error('表单验证失败:', error)
@@ -122,6 +146,25 @@
     // 是否设置为默认就诊患人
     fromData.value.defaultFlag = ev.detail.value ? 1 : 0
   }
+  // 拿到id查询患者信息接口，回显数据
+  const getPatientDetail = async (id) => {
+    uni.setNavigationBarTitle({ title: '编辑患者' })
+    const res = await patientDetailApi(id)
+    console.log(res)
+    if (res.code !== 10000) {
+      uni.utils.toast(res.message || '获取患者信息失败')
+      return
+    }
+
+    const { name, idCard, gender, defaultFlag } = res.data
+    // 数据回显
+    fromData.value = { name, idCard, gender, defaultFlag }
+  }
+  onLoad(() => {
+    if (props.id) {
+      getPatientDetail(props.id)
+    }
+  })
 </script>
 
 <style lang="scss">

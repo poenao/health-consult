@@ -60,7 +60,7 @@
                 size="20"
                 color="#16C2A3"
                 custom-prefix="iconfont"
-              />
+              >编辑</uni-icons>
             </navigator>
           </view>
         </uni-swipe-action-item>
