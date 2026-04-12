@@ -7,12 +7,43 @@
     gender: 1,
     isDefault: 0,
   })
+  // 表单验证规则
+  const formRules = {
+    name: {
+      rules: [
+        { required: true, errorMessage: '请填写患者姓名' },
+        {
+          pattern: '^[\u4e00-\u9fa5]{2,5}$',
+          errorMessage: '患者姓名为2-5位中文',
+        },
+      ],
+    },
+    idCard: {
+      rules: [
+        { required: true, errorMessage: '请输入身份证号' },
+        {
+          pattern:
+            '^[1-9]\\d{5}(?:18|19|20)\\d{2}(?:0[1-9]|10|11|12)(?:0[1-9]|[1-2]\\d|30|31)\\d{3}[\\dXx]$',
+          errorMessage: '身份证号格式不正确',
+        },
+      ],
+    },
+    gender: {
+      rules: [{ required: true, errorMessage: '请勾选患者姓名' }],
+    },
+  }
 </script>
 
 <template>
   <scroll-page>
     <view class="archive-page">
-      <uni-forms border label-width="220rpx" ref="form">
+      <uni-forms
+        border
+        :model="fromData"
+        :rules="formRules"
+        label-width="220rpx"
+        ref="form"
+      >
         <uni-forms-item label="患者姓名" name="name">
           <uni-easyinput
             placeholder-style="color: #C3C3C5; font-size: 32rpx"
