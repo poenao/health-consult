@@ -84,6 +84,12 @@
       if (res.code === 10000) return uni.utils.toast('登录成功!')
       sotre.token = res.data.token
       sotre.userInfo = res.data.userInfo
+      // 跳转到之前的页面从pinia取出来
+      const redirectUrl = sotre.redirectUrl
+      const openType = sotre.openType
+      uni[openType]({
+        url: redirectUrl,
+      })
     } catch (error) {
       console.log('表单验证失败:', error)
     }
