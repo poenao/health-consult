@@ -2,6 +2,7 @@
   import { ref } from 'vue'
   import { patientListApi } from '../../apis/patinet'
 
+  // 侧滑选项删除患者
   const swipeOptions = ref([
     {
       text: '删除',
@@ -31,7 +32,6 @@
   <scroll-page>
     <view class="archive-page" v-if="showContent">
       <view class="archive-tips">最多可添加6人</view>
-
       <uni-swipe-action>
         <uni-swipe-action-item
           v-for="item in patientList"
