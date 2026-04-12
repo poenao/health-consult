@@ -1,5 +1,5 @@
 <template>
-  <scroll-page>
+  <scroll-page @scrolltolower="onScrollToLower">
     <view
       class="index-page"
       :style="{ backgroundPositionY: -48 + safeAreaInsets.top + 'px' }"
@@ -118,8 +118,6 @@
           </swiper-item>
         </swiper>
       </view>
-      <!-- 标签页列表 -->
-      <!-- 标签切换 -->
       <view
         class="doctor-feeds"
         :style="{ marginTop: -safeAreaInsets.top + 'px' }"
@@ -128,26 +126,72 @@
           <custom-tabs @click="onFeedTabChange" :list="feedTabs" />
         </custom-sticky>
       </view>
+      <!-- 关注知识列表 -->
+      <view
+        v-for="(feed, index) in feedTabs"
+        :key="feed.type"
+        v-show="tabIndex === index"
+      >
+        <feed-list :list="feed.list" v-if="feed.rendered" />
+      </view>
     </view>
   </scroll-page>
 </template>
 <script setup>
-  import { ref } from 'vue'
-
+  import { computed, ref } from 'vue'
+  import FeedList from './components/feed-list.vue'
+  import ScrollPage from '@/components/scroll-page.vue' // 根据你实际路径微调
   // 获取安全区域数据
   const { safeAreaInsets } = uni.getSystemInfoSync()
   // 标签页索引值
   const tabIndex = ref(0)
   // 标签页数据
   const feedTabs = ref([
-    { label: '推荐' },
-    { label: '关注' },
-    { label: '减脂' },
-    { label: '饮食' },
+    {
+      label: '推荐',
+      type: '',
+      current: 1,
+      hasMore: true,
+      list: [],
+      rendered: true,
+    },
+    {
+      label: '关注',
+      type: '',
+      current: 1,
+      hasMore: true,
+      list: [],
+      rendered: false,
+    },
+    {
+      label: '减脂',
+      type: '',
+      current: 1,
+      hasMore: true,
+      list: [],
+      rendered: false,
+    },
+    {
+      label: '饮食',
+      type: '',
+      current: 1,
+      hasMore: true,
+      list: [],
+      rendered: false,
+    },
   ])
+  // 标签页对应的类型 type
+  const feedType = computed(() => feedTabs.value[tabIndex.value].type) // 当前标签页的数据列表
+  // 标签页对应的页码 current
+  const feedCurrent = computed(() => feedTabs.value[tabIndex.value].current) // 标签页对应的是否有更多 hasMore
+  // 每次请求多少条数据
+  const feedPageSize = ref(5)
   // 切换标签页
   function onFeedTabChange({ index }) {
+    // 如果切换到的标签页没有渲染过，则标记为已渲染
     tabIndex.value = index
+    // 每个标签页只被初始一次
+    feedTabs.value[index].rendered = true
   }
 </script>
 <style lang="scss">
