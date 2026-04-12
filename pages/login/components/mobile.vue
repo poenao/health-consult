@@ -114,6 +114,13 @@
       const store = userInfoStore()
       store.token = res.data.token
       store.userInfo = res.data.userInfo
+      // 跳转到之前的页面从pinia取出来
+      const redirectUrl = sotre.redirectUrl
+      const openType = sotre.openType
+      uni[openType]({
+        url: redirectUrl,
+      })
+      //提示登录成功
       uni.utils.toast('登录成功!')
     } catch (error) {
       console.log('表单验证失败:', error)

@@ -81,7 +81,7 @@
     try {
       formRef.value.validate()
       const res = await loginByPassword(formData.value)
-      if (res.code === 10000) return uni.utils.toast('登录成功!')
+      if (res.code !== 10000) return uni.utils.toast('登录失败!')
       sotre.token = res.data.token
       sotre.userInfo = res.data.userInfo
       // 跳转到之前的页面从pinia取出来
@@ -90,6 +90,8 @@
       uni[openType]({
         url: redirectUrl,
       })
+      //提示登录成功
+      uni.utils.toast('登录成功!')
     } catch (error) {
       console.log('表单验证失败:', error)
     }
