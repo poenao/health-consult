@@ -34,3 +34,4 @@ export const updatePatientApi = (data) => {
 export const removePatientApi = (id) => {
   return request.delete(`/patient/del/${id}`)
 }
+

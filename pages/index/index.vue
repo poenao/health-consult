@@ -118,6 +118,8 @@
           </swiper-item>
         </swiper>
       </view>
+      <!-- 医生列表 -->
+      <doctor-list :list="doctorItems" v-show="feedType === 'recommend'" />
       <view
         class="doctor-feeds"
         :style="{ marginTop: -safeAreaInsets.top + 'px' }"
@@ -141,7 +143,8 @@
   import { computed, ref } from 'vue'
   import FeedList from './components/feed-list.vue'
   import ScrollPage from '@/components/scroll-page.vue' // 根据你实际路径微调
-  import { feedListApi } from '@/apis/doctor'
+  import { feedListApi, doctorListApi } from '@/apis/doctor'
+  import DoctorList from './components/doctor-list.vue'
   // 获取安全区域数据
   const { safeAreaInsets } = uni.getSystemInfoSync()
   // 标签页索引值
@@ -198,6 +201,8 @@
     // 每个标签页只被初始一次
     feedTabs.value[index].rendered = true
   }
+
+  // 获取知识列表数据的函数
   const getFeedList = async () => {
     // 调用接口获取知识列表
     const { code, data, message } = await feedListApi({
@@ -221,6 +226,15 @@
     feedTabs.value[tabIndex.value].current += 1
     getFeedList()
   }
+
+  // 医生列表
+  const doctorItems = ref([])
+  const getDoctorList = async () => {
+    const { code, data, message } = await doctorListApi()
+    if (code !== 10000) return uni.utils.toast(message)
+    doctorItems.value = data.rows
+  }
+  getDoctorList()
   getFeedList()
 </script>
 <style lang="scss">

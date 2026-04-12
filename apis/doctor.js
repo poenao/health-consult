@@ -7,3 +7,10 @@ import { request } from '@/utils/request'
 export const feedListApi = (data) => {
   return request.get('/patient/home/knowledge', { params: data })
 }
+
+/**
+ * 推荐医生列表
+ */
+export const doctorListApi = (current = 1, pageSize = 5) => {
+  return request.get('/home/page/doc', { params: { current, pageSize } })
+}
