@@ -152,6 +152,7 @@
             title="家庭档案"
             show-arrow
             show-extra-icon
+            to="/subpkg_archive/list/index"
             :extra-icon="{
               customPrefix: 'icon-symbol',
               type: 'icon-symbol-tool-03',
@@ -222,26 +223,26 @@
     }
   }
   const onLogoutClick = () => {
-     uni.showModal({
-	  title: '退出登录',
-	  content: '您确定要退出登录吗？',
-	  success: (res) => {
-		if (res.confirm) {
-		  // 清除用户信息
-	
-	       const store = userInfoStore()
-		   store.token = ''
-		   store.userInfo = {}
-		   // 清除历史页面重定向路径默认回到首页
-		   store.redirectPath = './pages/index/index'
-		   // 清楚历史重定向路径默认是
-		   store.openType = 'switchTab'
-		   uni.utils.toast('退出登录成功')
-		  // 跳转到登录页
-		  uni.redirectTo({ url: '/pages/login/index' })
-		}
-	  }
-	})
+    uni.showModal({
+      title: '退出登录',
+      content: '您确定要退出登录吗？',
+      success: (res) => {
+        if (res.confirm) {
+          // 清除用户信息
+
+          const store = userInfoStore()
+          store.token = ''
+          store.userInfo = {}
+          // 清除历史页面重定向路径默认回到首页
+          store.redirectPath = './pages/index/index'
+          // 清楚历史重定向路径默认是
+          store.openType = 'switchTab'
+          uni.utils.toast('退出登录成功')
+          // 跳转到登录页
+          uni.redirectTo({ url: '/pages/login/index' })
+        }
+      },
+    })
   }
   getUserInfo()
 </script>
