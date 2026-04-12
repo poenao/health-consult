@@ -1,6 +1,8 @@
 // 导入模块
 import Request from 'luch-request'
+import { userInfoStore } from '../stores/user'
 
+const store = userInfoStore
 // 实例化网络请求
 const request = new Request({
   baseURL: 'https://consult-api.itheima.net', // 基础URL
@@ -13,6 +15,11 @@ const request = new Request({
 // 请求拦截器
 request.interceptors.request.use(
   (config) => {
+    // 在请求头中添加Authorization字段，携带token
+    const token = store.token
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`
+    }
     return config
   },
   (error) => {
