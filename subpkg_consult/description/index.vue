@@ -59,6 +59,7 @@
       <view class="patient-picture">
         <uni-file-picker
           title="上传病情相关图片 (仅医生可见)"
+          v-model="illnessInfo.pictures"
           limit="8"
           :image-styles="{ width: '160rpx', height: '160rpx' }"
           file-extname="png,jpg,gif,webp"
@@ -78,6 +79,8 @@
     illnessDesc: '', // 病情描述
     illnessTime: '', // 患病时长
     consultFlag: '', // 是否就诊过
+    // 接收上传到云空间的图片
+    pictures: [],
   })
   // 患病时长
   const illnessTimes = [
