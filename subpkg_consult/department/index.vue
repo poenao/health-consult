@@ -11,27 +11,27 @@
         {{ item.name }}
       </view>
     </scroll-view>
-
-    <scroll-view scroll-y class="department-secondary">
+    <scroll-view class="department-secondary">
       <navigator
-        v-for="child in childDepartmentList"
-        :key="child.id"
-        hover-class="navigator-hover"
-        :url="`/subpkg_consult/description/index?id=${child.id}`"
+        v-for="childDepartment in childDepartmentList"
+        :key="childDepartment.id"
+        hover-class="none"
+        :url="`/subpkg_consult/description/index?type=${props.type}&illnessType=${props.illnessType}&depId=${childDepartment.id}`"
         class="department-item"
       >
-        {{ child.name }}
+        {{ childDepartment.name }}
       </navigator>
-
-      <view v-if="childDepartmentList.length === 0" class="empty-state">
-        暂无子科室数据
-      </view>
     </scroll-view>
   </view>
 </template>
 <script setup>
   import { departmentListApi } from '@/apis/consult'
-  import { ref, onMounted, computed } from 'vue'
+  import { ref, onMounted, computed, defineProps } from 'vue'
+  // 接收地址中的参数
+  const props = defineProps({
+    type: String,
+    illnessType: String,
+  })
   // 科室列表
   const departmentList = ref([])
   // 一级科室的索引值
@@ -48,7 +48,7 @@
   }
   // 二级科室列表通过计算属性获取
   const childDepartmentList = computed(() => {
-    return departmentList.value[tabIndex.value].child || []
+    return departmentList.value[tabIndex.value]?.child || []
   })
   onMounted(() => {
     getDepartmentList()
