@@ -14,15 +14,18 @@
     </view>
     <scroll-view scroll-x :show-scrollbar="false">
       <view class="doctor-list-wrapper">
-        <view class="doctor-list-item">
-          <image
-            class="doctor-avatar"
-            src="/static/uploads/doctor-avatar.jpg"
-          />
-          <view class="name">王医生</view>
-          <view class="unit">积水潭 皮肤科</view>
-          <view class="level">主任医师</view>
-          <button class="follow">+ 关注</button>
+        <view
+          class="doctor-list-item"
+          v-for="(item, index) in list"
+          :key="index"
+        >
+          <image class="doctor-avatar" :src="item.avatar" />
+          <view class="name">{{ item.name }}</view>
+          <view class="unit">{{ item.hospitalName }} {{ item.depName }}</view>
+          <view class="level">{{ item.positionalTitles }}</view>
+          <button class="follow">
+            {{ item.likeFlag === 1 ? '已关注' : '+ 关注' }}
+          </button>
         </view>
       </view>
     </scroll-view>

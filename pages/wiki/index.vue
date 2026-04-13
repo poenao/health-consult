@@ -3,7 +3,6 @@
 </template>
 
 <script setup>
-  import Vue from 'vue'
 </script>
 
 <style scoped></style>
