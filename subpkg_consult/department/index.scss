@@ -1,26 +1,86 @@
 .department-page {
   display: flex;
   height: 100vh;
+  background-color: #fff;
+  /* 适配 H5 端可能有导航栏的情况 */
   /* #ifdef H5 */
-  height: calc(100vh - 45px);
+  height: calc(100vh - 44px);
   /* #endif */
-  border-top: 1rpx solid #eee;
-}
 
-.department-primary {
-  width: 220rpx;
-  padding: 20rpx 0;
-  background-color: #f6f6f6;
+  // 左侧一级导航
+  .department-primary {
+    width: 180rpx;
+    background-color: #f7f8fa;
+    height: 100%;
 
-  .department-item {
-    line-height: 1.5;
-    padding: 20rpx 40rpx;
-    font-size: 28rpx;
-    color: #6f6f6f;
+    .department-item {
+      height: 100rpx;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28rpx;
+      color: #666;
+      position: relative;
+      transition: all 0.2s;
 
-    &.active {
+      &.active {
+        background-color: #ffffff;
+        color: #16c2a3; // 优医主题绿
+        font-weight: bold;
+
+        // 左侧的绿色指示条
+        &::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 30rpx;
+          bottom: 30rpx;
+          width: 8rpx;
+          background-color: #16c2a3;
+          border-radius: 0 4rpx 4rpx 0;
+        }
+      }
+    }
+  }
+
+  // 右侧二级导航
+  .department-secondary {
+    flex: 1;
+    height: 100%;
+    padding: 0 30rpx;
+
+    .secondary-header {
+      padding: 30rpx 0;
+      font-size: 24rpx;
+      color: #999;
+      font-weight: normal;
+    }
+
+    .department-item {
+      height: 100rpx;
+      display: flex;
+      align-items: center;
+      font-size: 28rpx;
+      color: #333;
+      border-bottom: 1rpx solid #f2f2f2;
+      
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    // 点击效果
+    .navigator-hover {
+      background-color: #fcfcfc;
+      opacity: 0.8;
       color: #16c2a3;
-      background-color: #fff;
+    }
+
+    .empty-state {
+      padding-top: 100rpx;
+      text-align: center;
+      color: #ccc;
+      font-size: 26rpx;
     }
   }
 }
