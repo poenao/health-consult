@@ -1,5 +1,3 @@
-<script setup></script>
-
 <template>
   <scroll-page>
     <view class="quickly-page">
@@ -15,6 +13,7 @@
           show-arrow
           thumb="/static/images/consult-type-1.png"
           thumb-size="lg"
+          :to="`/subpkg_consult/department/index?type=${props.type}&illnessType=1`"
         />
       </uni-list>
       <uni-list :border="false" class="consult-type">
@@ -24,12 +23,20 @@
           show-arrow
           thumb="/static/images/consult-type-2.png"
           thumb-size="lg"
+          :to="`/subpkg_consult/department/index?type=${props.type}&illnessType=0`"
         />
       </uni-list>
     </view>
   </scroll-page>
 </template>
-
+<script setup>
+  import { defineProps } from 'vue'
+  const props = defineProps({
+    type: {
+      type: String,
+    },
+  })
+</script>
 <style lang="scss">
   @import './index.scss';
 </style>

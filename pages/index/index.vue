@@ -36,7 +36,7 @@
         <navigator
           hover-class="none"
           class="quick-entry-item"
-          url="/subpkg_consult/quickly/index"
+          url="/subpkg_consult/quickly/index?type=2"
         >
           <image
             class="quick-entry-icon"
@@ -52,9 +52,9 @@
           />
           <text class="label">开药门诊</text>
           <text class="small">线上买药更方便</text>
-        </navigator>
-      </view>
-      <!-- 快速查看 -->
+        </navigator> </view
+      >6=/
+      <!-- 快速=查看 -->
       <view class="quick-view">
         <navigator
           hover-class="none"
