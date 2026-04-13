@@ -1,5 +1,3 @@
-<script setup></script>
-
 <template>
   <scroll-page>
     <view class="description-page">
@@ -24,6 +22,7 @@
       <view class="patient-info">
         <view class="description">
           <uni-easyinput
+            v-model="illnessInfo.illnessDesc"
             type="textarea"
             :styles="{ backgroundColor: '#f6f6f6' }"
             :input-border="false"
@@ -34,10 +33,14 @@
 
         <view class="title">本次患病多久了？</view>
         <view class="tags">
-          <text class="tag active">一周内</text>
-          <text class="tag">一个月内</text>
-          <text class="tag">半年内</text>
-          <text class="tag">大于半年</text>
+          <text
+            class="tag"
+            :class="{ active: illnessInfo.illnessTime === item.value }"
+            v-for="item in illnessTimes"
+            :key="item.value"
+            @click="onFlagTagClick(item.value)"
+            >{{ item.text }}</text
+          >
         </view>
 
         <view class="title">此次病情是否去医院就诊过？</view>
@@ -62,6 +65,27 @@
     </view>
   </scroll-page>
 </template>
+<script setup>
+  import { ref } from 'vue'
+  // 病情描述信息
+  const illnessInfo = ref({
+    illnessDesc: '',
+    illnessTime: '',
+    consultFlag: '',
+  })
+  // 患病时长
+  const illnessTimes = [
+    { value: 1, text: '一周内' },
+    { value: 2, text: '一月内' },
+    { value: 3, text: '半年内' },
+    { value: 4, text: '半年以上' },
+  ]
+
+  // 记录用户选择的数据
+  const onFlagTagClick = (value) => {
+    illnessInfo.value.illnessTime = value
+  }
+</script>
 <style lang="scss">
-@import "./index.scss";
+  @import './index.scss';
 </style>
