@@ -53,7 +53,7 @@
           <text class="label">开药门诊</text>
           <text class="small">线上买药更方便</text>
         </navigator> </view
-      >6=/
+      >
       <!-- 快速=查看 -->
       <view class="quick-view">
         <navigator
