@@ -41,8 +41,8 @@
         </view>
       </view>
       <view class="feed-extra">
-        <text>12 收藏</text>
-        <text>120 评论</text>
+        <text>{{item.collectionNumber}} 收藏</text>
+        <text>{{item.commentNumber}} 评论</text>
       </view>
     </view>
   </view>

@@ -1,10 +1,3 @@
-<script setup>
-  // 接收组件外部传入的数据
-  const props = defineProps({
-    list: Array,
-  })
-</script>
-
 <template>
   <view class="doctor-list">
     <view class="doctor-list-header">
@@ -23,7 +16,7 @@
           <view class="name">{{ item.name }}</view>
           <view class="unit">{{ item.hospitalName }} {{ item.depName }}</view>
           <view class="level">{{ item.positionalTitles }}</view>
-          <button class="follow">
+          <button class="follow" @click="onFollowButtonClick(item)">
             {{ item.likeFlag === 1 ? '已关注' : '+ 关注' }}
           </button>
         </view>
@@ -31,7 +24,22 @@
     </scroll-view>
   </view>
 </template>
+<script setup>
+  // 接收组件外部传入的数据
+  const props = defineProps({
+    list: Array,
+  })
+  import { followDoctorApi } from '@/apis/doctor'
 
+  const onFollowButtonClick = async (item) => {
+    // 关注医生接口
+    const { code, data, message } = await followDoctorApi(item.id)
+    // 检测接口是否调用成功
+    if (code !== 10000) return uni.utils.toast(message)
+    // 关注成功
+    item.likeFlag = 1
+  }
+</script>
 <style lang="scss">
   .doctor-list {
     height: 480rpx;
@@ -111,3 +119,4 @@
     }
   }
 </style>
+async

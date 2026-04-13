@@ -14,3 +14,10 @@ export const feedListApi = (data) => {
 export const doctorListApi = (current = 1, pageSize = 5) => {
   return request.get('/home/page/doc', { params: { current, pageSize } })
 }
+
+/**
+ * 关注医生
+ */
+export const followDoctorApi = (id, type = 'doc') => {
+  return request.post('/like', { id, type })
+}
