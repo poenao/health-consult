@@ -45,8 +45,14 @@
 
         <view class="title">此次病情是否去医院就诊过？</view>
         <view class="tags">
-          <text class="tag">就诊过</text>
-          <text class="tag active">没有就诊过</text>
+          <text
+            class="tag"
+            :class="{ active: illnessInfo.consultFlag === item.value }"
+            v-for="item in consultFlags"
+            :key="item.value"
+            @click="onConsultFlagClick(item.value)"
+            >{{ item.text }}</text
+          >
         </view>
       </view>
       <!-- 上传图片 -->
@@ -69,9 +75,9 @@
   import { ref } from 'vue'
   // 病情描述信息
   const illnessInfo = ref({
-    illnessDesc: '',
-    illnessTime: '',
-    consultFlag: '',
+    illnessDesc: '', // 病情描述
+    illnessTime: '', // 患病时长
+    consultFlag: '', // 是否就诊过
   })
   // 患病时长
   const illnessTimes = [
@@ -80,10 +86,19 @@
     { value: 3, text: '半年内' },
     { value: 4, text: '半年以上' },
   ]
+  // 是否就诊过
+  const consultFlags = [
+    { value: 1, text: '就诊过' },
+    { value: 0, text: '没有就诊过' },
+  ]
 
-  // 记录用户选择的数据
+  // 记录用户选择的患病时长数据
   const onFlagTagClick = (value) => {
     illnessInfo.value.illnessTime = value
+  }
+  // 记录用户选择的就诊标识数据
+  const onConsultFlagClick = (value) => {
+    illnessInfo.value.consultFlag = value
   }
 </script>
 <style lang="scss">
