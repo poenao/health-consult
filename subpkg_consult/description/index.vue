@@ -68,12 +68,18 @@
     </view>
     <!-- 下一步操作 -->
     <view class="next-step">
-      <button class="uni-button">下一步</button>
+      <button
+        :disabled="!nextStepEnable"
+        class="uni-button"
+        @click="onNextStep"
+      >
+        下一步
+      </button>
     </view>
   </scroll-page>
 </template>
 <script setup>
-  import { ref } from 'vue'
+  import { ref, computed } from 'vue'
   // 病情描述信息
   const illnessInfo = ref({
     illnessDesc: '', // 病情描述
@@ -103,6 +109,15 @@
   const onConsultFlagClick = (value) => {
     illnessInfo.value.consultFlag = value
   }
+
+  const nextStepEnable = computed(() => {
+    // 只有当病情描述、患病时长、就诊标识都填写后才允许进入下一步
+    return (
+      illnessInfo.value.illnessDesc.trim() !== '' &&
+      illnessInfo.value.illnessTime !== '' &&
+      illnessInfo.value.consultFlag !== ''
+    )
+  })
 </script>
 <style lang="scss">
   @import './index.scss';
