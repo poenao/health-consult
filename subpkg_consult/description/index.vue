@@ -118,6 +118,7 @@
       illnessInfo.value.consultFlag !== ''
     )
   })
+  // 下一步操作以后把问诊所有数据保存到pinia状态管理中
 </script>
 <style lang="scss">
   @import './index.scss';
