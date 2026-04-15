@@ -79,8 +79,14 @@
   </scroll-page>
 </template>
 <script setup>
-  import { ref, computed } from 'vue'
+  import { ref, computed, defineProps } from 'vue'
   import { useConsultStore } from '../../stores/consult'
+  // 接收地址的参数
+  const props = defineProps({
+    type: String,
+    illnessType: String,
+    depId: String,
+  })
   // 病情描述信息
   const illnessInfo = ref({
     illnessDesc: '', // 病情描述
@@ -122,20 +128,34 @@
   // 下一步操作以后把问诊所有数据保存到pinia状态管理中
   const store = useConsultStore()
   const onNextStep = () => {
-    store.consultData = illnessInfo.value
+    // 将病情描述信息保存到 Pinia 中的 consultData 中
+    store.illnessInfo = illnessInfo.value
+    // 把页面路径参数也保存到 Pinia 中，方便后续页面使用
+    store.type = props.type
+    store.illnessType = props.illnessType
+    store.depId = props.depId
   }
+
   // 提示用户是否恢复之前填写的病情数据
-  if (store.consultData) {
-    // 这里可以弹出提示框询问用户是否恢复数据
+  if (store.illnessInfo.illnessDesc) {
     uni.showModal({
-      title: '提示',
-      content: '是否恢复之前填写的病情数据？',
-      success: (res) => {
-        if (res.confirm) {
-          illnessInfo.value = store.consultData
+      title: '温馨提示',
+      content: '是否恢复之前填写的病情信息？',
+      confirmText: '确认',
+      confirmColor: '#16C2A3',
+      cancelColor: '#848484',
+      success({ confirm }) {
+        if (confirm) {
+          // 恢复之前填写的病情信息
+          illnessInfo.value = store.illnessInfo
         } else {
-          // 用户选择不恢复数据，可以清空之前的数据
-          store.consultData = {}
+          // 不恢复，保持当前页面的默认状态
+          store.illnessInfo = {
+            illnessDesc: '', // 病情描述
+            illnessTime: '', // 患病时长
+            consultFlag: '', // 是否就诊过
+            pictures: [], // 图片列表
+          }
         }
       },
     })

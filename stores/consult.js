@@ -5,22 +5,31 @@ export const useConsultStore = defineStore(
   'consult',
   () => {
     // 定义一个状态来存储问诊的相关信息
-    const consultData = ref({
+    const initalValue = ref({
       illnessDesc: '', // 病情描述
       illnessTime: '', // 患病时长
       consultFlag: '', // 就诊标识
       pictures: [],
     })
+    // 急速类型
+    const type = ref('')
+    // 问诊类型
+    const illnessType = ref('')
+    // 科室ID
+    const depId = ref('')
     // 病情缓存数据
-    const consultInfo = ref({ ...consultData.value })
+    const illnessInfo = ref({ ...initalValue.value })
     return {
-      consultData,
-      consultInfo,
+      type,
+      illnessType,
+      depId,
+      illnessInfo,
+      initalValue,
     }
   },
   {
     persist: {
-      path: ['consultData'], // 只持久化 consultData
+      path: ['illnessInfo', 'type', 'depId', 'illnessType'], // 只持久化 illnessInfo
     },
   }
 )
