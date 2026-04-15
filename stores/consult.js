@@ -20,7 +20,7 @@ export const useConsultStore = defineStore(
   },
   {
     persist: {
-      path: 'consultData', // 只持久化 consultData
+      path: ['consultData'], // 只持久化 consultData
     },
   }
 )

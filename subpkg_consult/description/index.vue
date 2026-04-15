@@ -80,6 +80,7 @@
 </template>
 <script setup>
   import { ref, computed } from 'vue'
+  import { useConsultStore } from '../../stores/consult'
   // 病情描述信息
   const illnessInfo = ref({
     illnessDesc: '', // 病情描述
@@ -119,6 +120,26 @@
     )
   })
   // 下一步操作以后把问诊所有数据保存到pinia状态管理中
+  const store = useConsultStore()
+  const onNextStep = () => {
+    store.consultData = illnessInfo.value
+  }
+  // 提示用户是否恢复之前填写的病情数据
+  if (store.consultData) {
+    // 这里可以弹出提示框询问用户是否恢复数据
+    uni.showModal({
+      title: '提示',
+      content: '是否恢复之前填写的病情数据？',
+      success: (res) => {
+        if (res.confirm) {
+          illnessInfo.value = store.consultData
+        } else {
+          // 用户选择不恢复数据，可以清空之前的数据
+          store.consultData = {}
+        }
+      },
+    })
+  }
 </script>
 <style lang="scss">
   @import './index.scss';
