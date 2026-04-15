@@ -134,6 +134,10 @@
     store.type = props.type
     store.illnessType = props.illnessType
     store.depId = props.depId
+    // 跳转到患者列表页面
+    uni.navigateTo({
+      url: '/subpkg_consult/patient/index',
+    })
   }
 
   // 提示用户是否恢复之前填写的病情数据
