@@ -73,6 +73,8 @@
       </view>
       <button class="uni-button" @click="onPaymentButtonClick">立即支付</button>
     </view>
+    <!-- 支付组件 -->
+    <custom-payment :order-id="orderId" ref="paymentRef" :amount="preOrderInfo.actualPayment" />
   </scroll-page>
 </template>
 <script setup>
@@ -80,8 +82,10 @@
   import { createOrderApi, preOrderApi } from '../../apis/consult'
   import { useConsultStore } from '../../stores/consult'
   import { patientDetailApi } from '../../apis/patinet'
+  import customPayment from '../../components/custom-payment/custom-payment.vue'
   const { type, illnessType, patientId, illnessInfo, depId } = useConsultStore()
-
+  // 支付组件引用
+  const paymentRef = ref()
   // 预订单信息
   const preOrderInfo = ref({})
   // 就诊患者信息
@@ -132,6 +136,8 @@
     consultStore.illnessType = ''
     consultStore.depId = ''
     consultStore.patientId = ''
+    // 打开支付组件
+    paymentRef.value.open()
   }
   createPreOrder()
   createPatientDetail()
