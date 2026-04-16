@@ -71,21 +71,23 @@
       <view class="total-amount">
         合计: <text class="number">¥{{ preOrderInfo.actualPayment }}</text>
       </view>
-      <button class="uni-button">立即支付</button>
+      <button class="uni-button" @click="onPaymentButtonClick">立即支付</button>
     </view>
   </scroll-page>
 </template>
 <script setup>
   import { ref } from 'vue'
-  import { preOrderApi } from '../../apis/consult'
+  import { createOrderApi, preOrderApi } from '../../apis/consult'
   import { useConsultStore } from '../../stores/consult'
   import { patientDetailApi } from '../../apis/patinet'
-  const { type, illnessType, patientId, illnessInfo } = useConsultStore()
+  const { type, illnessType, patientId, illnessInfo, depId } = useConsultStore()
 
   // 预订单信息
   const preOrderInfo = ref({})
   // 就诊患者信息
   const patientDetail = ref({})
+  // 订单ID
+  const orderId = ref('')
   // 生成预支付订单
   const createPreOrder = async () => {
     const res = await preOrderApi(type, {
@@ -101,9 +103,35 @@
     const res = await patientDetailApi(patientId)
     // 检测接口是否调用成功
     if (res.code !== 10000) return uni.utils.toast(message)
-    console.log(res)
     // 渲染患者信息
     patientDetail.value = res.data
+  }
+  // 立即支付
+  const onPaymentButtonClick = async () => {
+    if (orderId.value) return uni.utils.toast('订单不能重复创建')
+    // 处理上传的图片，要求包含 ID 和 url （接口规订的）
+    // 订单只能提交一次！！！
+    illnessInfo.pictures = illnessInfo.pictures.map(({ url, uuid }) => {
+      return { url, id: uuid }
+    })
+    // 生成订单
+    const res = await createOrderApi({
+      type,
+      illnessType,
+      depId,
+      patientId,
+      ...illnessInfo,
+    })
+    // 接收订单id
+    orderId.value = res.data.id
+    // 将 Pinia 中缓存的数据清空掉（订单已创建完成）
+    const consultStore = useConsultStore()
+    // 病情描述
+    consultStore.illnessInfo = consultStore.initalValue
+    consultStore.type = ''
+    consultStore.illnessType = ''
+    consultStore.depId = ''
+    consultStore.patientId = ''
   }
   createPreOrder()
   createPatientDetail()
@@ -112,3 +140,4 @@
 <style lang="scss">
   @import './index.scss';
 </style>
+async async
