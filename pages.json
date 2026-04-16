@@ -122,6 +122,12 @@
           "style": {
             "navigationBarTitleText": "选择患者"
           }
+        },
+        {
+          "path": "payment/index",
+          "style": {
+            "navigationBarTitleText": "等待付款"
+          }
         }
       ]
     }

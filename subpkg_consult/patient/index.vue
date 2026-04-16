@@ -61,7 +61,9 @@
     </view>
     <!-- 下一步操作 -->
     <view class="next-step">
-      <button class="uni-button">下一步</button>
+      <navigator class="uni-button" url="/subpkg_consult/payment/index">
+        下一步
+      </navigator>
     </view>
   </scroll-page>
 </template>
