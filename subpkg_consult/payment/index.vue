@@ -74,7 +74,12 @@
       <button class="uni-button" @click="onPaymentButtonClick">立即支付</button>
     </view>
     <!-- 支付组件 -->
-    <custom-payment :order-id="orderId" ref="paymentRef" :amount="preOrderInfo.actualPayment" />
+    <custom-payment
+      :order-id="orderId"
+      ref="paymentRef"
+      :amount="preOrderInfo.actualPayment"
+      @confirm="onPaymentConfirm"
+    />
   </scroll-page>
 </template>
 <script setup>
@@ -82,6 +87,7 @@
   import { createOrderApi, preOrderApi } from '../../apis/consult'
   import { useConsultStore } from '../../stores/consult'
   import { patientDetailApi } from '../../apis/patinet'
+  import { orderPayApi } from '../../apis/payment'
   import customPayment from '../../components/custom-payment/custom-payment.vue'
   const { type, illnessType, patientId, illnessInfo, depId } = useConsultStore()
   // 支付组件引用
@@ -110,7 +116,7 @@
     // 渲染患者信息
     patientDetail.value = res.data
   }
-  // 立即支付
+  // 立即支付 会创建订单，获取订单id，打开支付组件
   const onPaymentButtonClick = async () => {
     if (orderId.value) return uni.utils.toast('订单不能重复创建')
     // 处理上传的图片，要求包含 ID 和 url （接口规订的）
@@ -118,7 +124,7 @@
     illnessInfo.pictures = illnessInfo.pictures.map(({ url, uuid }) => {
       return { url, id: uuid }
     })
-    // 生成订单
+    // 生成订单会给一个订单id，后续支付需要这个订单id
     const res = await createOrderApi({
       type,
       illnessType,
@@ -139,6 +145,29 @@
     // 打开支付组件
     paymentRef.value.open()
   }
+  const onPaymentConfirm = async ({ index }) => {
+    if (index === 0) return uni.utils.toast('暂不支持微信支付!')
+    // 调用后端提供的支付接口
+    const { code, data, message } = await orderPayApi({
+      orderId: orderId.value, // 订单ID
+      paymentMethod: index, // 支付方式索引（0 微信支付，1 支付宝支付）
+      payCallback: 'http://localhost:5173/#/subpkg_consult/room/index', // 支付完成后的回调地址（前端路由地址）
+    })
+    // 检测接口是否调用成功
+    if (code !== 10000) return uni.utils.toast(message)
+    // #ifdef H5
+    // 引导用户支付（地址跳转方式）
+    window.location.href = data.payUrl
+    // #endif
+
+    // #ifdef MP-WEIXIN
+    // 引导用户支付（wx.requestPayment 小程序）
+    wx.requestPayment({
+      // 4 个参数
+    })
+    // #endif
+  }
+
   createPreOrder()
   createPatientDetail()
 </script>
@@ -146,4 +175,3 @@
 <style lang="scss">
   @import './index.scss';
 </style>
-async async
