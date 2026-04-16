@@ -61,9 +61,7 @@
     </view>
     <!-- 下一步操作 -->
     <view class="next-step">
-      <navigator class="uni-button" url="/subpkg_consult/payment/index">
-        下一步
-      </navigator>
+      <button type="primary" @click="onNextStepClick">下一步</button>
     </view>
   </scroll-page>
 </template>
@@ -79,6 +77,8 @@
   ])
   import { computed, ref } from 'vue'
   import { patientListApi } from '../../apis/patinet'
+  import { useConsultStore } from '../../stores/consult'
+  const store = useConsultStore()
   // 患者列表
   const patientList = ref()
   // 是否显示页面内容
@@ -101,6 +101,17 @@
       return uni.utils.toast(res.message || '获取患者列表失败')
     patientList.value = res.data
     pageShow.value = true
+  }
+  // 点击下一步跳转到待支付页面
+  const onNextStepClick = () => {
+    if (!patientId.value) {
+      return uni.utils.toast('请至少选择一个患者')
+    }
+    // 将患者ID存储到全局状态管理中，以便支付页面使用
+    store.patientId = patientId.value
+    uni.navigateTo({
+      url: `/subpkg_consult/payment/index?patientId=${patientId.value}`,
+    })
   }
   getPatientList()
 </script>

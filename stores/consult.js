@@ -19,17 +19,20 @@ export const useConsultStore = defineStore(
     const depId = ref('')
     // 病情缓存数据
     const illnessInfo = ref({ ...initalValue.value })
+    //  患者ID
+    const patientId = ref('')
     return {
       type,
       illnessType,
       depId,
       illnessInfo,
       initalValue,
+      patientId,
     }
   },
   {
     persist: {
-      path: ['illnessInfo', 'type', 'depId', 'illnessType'], // 只持久化 illnessInfo
+      path: ['illnessInfo', 'type', 'depId', 'illnessType', 'patientId'], // 只持久化 illnessInfo
     },
   }
 )
