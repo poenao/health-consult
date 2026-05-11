@@ -58,22 +58,52 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    /* #ifdef H5 */
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    /* #endif */
   }
 
   .label {
     margin: 20rpx 0 10rpx;
     font-size: 28rpx;
     color: #121826;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    /* #ifdef H5 */
+    display: block;
+    width: 100%;
+    /* #endif */
   }
 
   .small {
     font-size: 22rpx;
     color: #848484;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    /* #ifdef H5 */
+    display: block;
+    width: 100%;
+    /* #endif */
   }
 
   &-icon {
     width: 92rpx;
     height: 92rpx;
+    /* #ifdef H5 */
+    display: block !important;
+    margin: 0 auto;
+    /* #endif */
   }
 }
 
@@ -87,17 +117,38 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    /* #ifdef H5 */
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    /* #endif */
   }
 
   .label {
     margin: 20rpx 0 10rpx;
     font-size: 28rpx;
     color: #121826;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    /* #ifdef H5 */
+    display: block;
+    width: 100%;
+    /* #endif */
   }
 
   &-icon {
     width: 62rpx;
     height: 62rpx;
+    /* #ifdef H5 */
+    display: block !important;
+    margin: 0 auto;
+    /* #endif */
   }
 }
 

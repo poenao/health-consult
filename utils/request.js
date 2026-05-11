@@ -65,19 +65,13 @@ request.interceptors.response.use(
 // 引导用户重新登录
 const relogin = () => {
   const store = userInfoStore()
-  // 动态读取当前页面的路径
   const pageStack = getCurrentPages()
   const currentPage = pageStack[pageStack.length - 1]
-  // 完整的路由包含地址的参数
-  const redirectURL = currentPage.$page.fullPath
-  // 判断当前页面是否在tabBar中然后选择合适的跳转方式
-  const openType = tabBarList.includes(currentPage.route)
+  const redirectUrl = currentPage.$page.fullPath
+  store.redirectUrl = redirectUrl
+  store.openType = tabBarList.includes(currentPage.route)
     ? 'switchTab'
-    : 'navigateTo'
-  //把上一页的页面地址和处理过的跳转方式传递给pinia
-  store.redirectURL = redirectURL
-  store.openType = openType
-  // 修改为：
+    : 'navigateBack'
   uni.redirectTo({
     url: '/pages/login/index',
   })

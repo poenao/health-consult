@@ -151,7 +151,7 @@
     const { code, data, message } = await orderPayApi({
       orderId: orderId.value, // 订单ID
       paymentMethod: index, // 支付方式索引（0 微信支付，1 支付宝支付）
-      payCallback: 'http://localhost:5173/#/subpkg_consult/room/index', // 支付完成后的回调地址（前端路由地址）
+      payCallback: `http://localhost:5173/#/subpkg_consult/room/index?orderId=${orderId.value}`,
     })
     // 检测接口是否调用成功
     if (code !== 10000) return uni.utils.toast(message)

@@ -1,5 +1,5 @@
 <template>
-  <scroll-page @scrolltolower="onScrollToLower">
+  <ScrollPage @scrolltolower="onScrollToLower">
     <view
       class="index-page"
       :style="{ backgroundPositionY: -48 + safeAreaInsets.top + 'px' }"
@@ -137,7 +137,7 @@
         <feed-list :list="feed.list" v-if="feed.rendered" />
       </view>
     </view>
-  </scroll-page>
+  </ScrollPage>
 </template>
 <script setup>
   import { computed, ref } from 'vue'

@@ -76,7 +76,6 @@
   }
   // 登录按钮点击事件
   const onSubmit = async () => {
-    // 判断是否勾选协议
     if (!isAgree.value) return uni.utils.toast('请先同意协议!')
     try {
       formRef.value.validate()
@@ -84,13 +83,16 @@
       if (res.code !== 10000) return uni.utils.toast('登录失败!')
       sotre.token = res.data.token
       sotre.userInfo = res.data.userInfo
-      // 跳转到之前的页面从pinia取出来
       const redirectUrl = sotre.redirectUrl
       const openType = sotre.openType
-      uni[openType]({
-        url: redirectUrl,
-      })
-      //提示登录成功
+      if (openType === 'switchTab') {
+        uni.switchTab({ url: redirectUrl })
+      } else {
+        uni.navigateBack()
+        setTimeout(() => {
+          uni.navigateTo({ url: redirectUrl })
+        }, 300)
+      }
       uni.utils.toast('登录成功!')
     } catch (error) {
       console.log('表单验证失败:', error)
